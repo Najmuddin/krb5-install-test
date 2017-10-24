@@ -1,6 +1,13 @@
 #!/bin/bash
 
-REQD_PACKAGES=krb5-server
+REQD_PACKAGES=krb5-server krb5-libs
+MISSING=""
+for pkgs in $REQD_PACKAGES; do
+	rpm -q $pkgs
+	if [ $? -ne 0 ]; then
+		$MISSING="$MISSING $pkgs"
+	fi
+done
 
 yum install -y $REQD_PACKAGES
 
